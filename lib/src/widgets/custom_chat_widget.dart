@@ -27,7 +27,7 @@ class CustomChatWidget extends StatefulWidget {
   final QuickReplyOptions quickReplyOptions;
   final ScrollToBottomOptions scrollToBottomOptions;
   final ChatMessagesController? controller;
-
+  final EdgeInsets? padding;
   /// Streaming animation configuration
   final Duration streamingTypingSpeed;
   final bool streamingEnabled;
@@ -67,6 +67,7 @@ class CustomChatWidget extends StatefulWidget {
     this.streamingFadeInCurve = Curves.easeInOut,
     this.streamingFadeInEnabled = false,
     this.streamingWordByWord = false,
+    this.padding,
   });
 
   @override
@@ -237,7 +238,7 @@ class _CustomChatWidgetState extends State<CustomChatWidget> {
       reverse: paginationConfig.reverseOrder,
       physics: widget.messageListOptions.scrollPhysics ??
           const BouncingScrollPhysics(),
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+      padding: widget.padding ?? const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       itemCount: widget.messages.length +
           (widget.typingUsers?.isNotEmpty == true ? 1 : 0) +
           (loadingWidget != null ? 1 : 0) +
