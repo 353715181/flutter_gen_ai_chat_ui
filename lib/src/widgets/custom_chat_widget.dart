@@ -440,8 +440,8 @@ class _CustomChatWidgetState extends State<CustomChatWidget> {
     final defaultMargin = EdgeInsets.only(
       top: 6,
       bottom: 6,
-      right: isUser ? 16 : 32,
-      left: isUser ? 32 : 16,
+      right: isUser ? 16 : 16,
+      left: isUser ? 16 : 16,
     );
 
     final defaultMaxWidth = MediaQuery.of(context).size.width * 0.75;
