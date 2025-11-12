@@ -627,66 +627,12 @@ class _CustomChatWidgetState extends State<CustomChatWidget> {
                             // Show premium copy button for AI messages
                             if (!isUser &&
                                 (widget.messageOptions.showCopyButton ?? false))
-                              Material(
-                                color: Colors.transparent,
-                                borderRadius: BorderRadius.circular(16),
-                                child: InkWell(
-                                  borderRadius: BorderRadius.circular(16),
-                                  onTap: () {
-                                    Clipboard.setData(
-                                        ClipboardData(text: message.text));
-                                    // Show premium feedback if provided
-                                    if (widget.messageOptions.onCopy != null) {
-                                      widget
-                                          .messageOptions.onCopy!(message.text);
-                                    } else {
-                                      ScaffoldMessenger.of(context)
-                                          .showSnackBar(
-                                        SnackBar(
-                                          content: const Text(
-                                              'Message copied to clipboard'),
-                                          duration: const Duration(seconds: 2),
-                                          behavior: SnackBarBehavior.floating,
-                                          shape: RoundedRectangleBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(12),
-                                          ),
-                                          backgroundColor: isDark
-                                              ? Colors.grey[800]
-                                              : Colors.grey[900],
-                                        ),
-                                      );
-                                    }
-                                  },
-                                  child: Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                      horizontal: 8,
-                                      vertical: 4,
-                                    ),
-                                    child: Row(
-                                      mainAxisSize: MainAxisSize.min,
-                                      children: [
-                                        Icon(
-                                          Icons.copy_outlined,
-                                          size: 14,
-                                          color: bubbleStyle.copyIconColor ??
-                                              primaryColor,
-                                        ),
-                                        const SizedBox(width: 4),
-                                        Text(
-                                          'Copy',
-                                          style: TextStyle(
-                                            fontSize: 12,
-                                            letterSpacing: 0.1,
-                                            color: bubbleStyle.copyIconColor ??
-                                                primaryColor,
-                                            fontWeight: FontWeight.w500,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
+                              _buildCopyButton(
+                                context,
+                                message,
+                                isDark,
+                                primaryColor,
+                                bubbleStyle,
                               ),
                           ],
                         ),
@@ -698,6 +644,81 @@ class _CustomChatWidgetState extends State<CustomChatWidget> {
             ),
           ),
         ],
+      ),
+    );
+  }
+
+  /// 构建复制按钮
+  Widget _buildCopyButton(
+    BuildContext context,
+    ChatMessage message,
+    bool isDark,
+    Color primaryColor,
+    BubbleStyle bubbleStyle,
+  ) {
+    // 定义复制按钮的点击回调
+    void handleCopyPressed() {
+      Clipboard.setData(ClipboardData(text: message.text));
+      // Show premium feedback if provided
+      if (widget.messageOptions.onCopy != null) {
+        widget.messageOptions.onCopy!(message.text);
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: const Text('Message copied to clipboard'),
+            duration: const Duration(seconds: 2),
+            behavior: SnackBarBehavior.floating,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(12),
+            ),
+            backgroundColor: isDark ? Colors.grey[800] : Colors.grey[900],
+          ),
+        );
+      }
+    }
+
+    // 如果提供了自定义构建函数，使用它
+    if (widget.messageOptions.copyButtonBuilder != null) {
+      return widget.messageOptions.copyButtonBuilder!(
+        context,
+        message,
+        handleCopyPressed,
+      );
+    }
+
+    // 否则使用默认实现
+    return Material(
+      color: Colors.transparent,
+      borderRadius: BorderRadius.circular(16),
+      child: InkWell(
+        borderRadius: BorderRadius.circular(16),
+        onTap: handleCopyPressed,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(
+            horizontal: 8,
+            vertical: 4,
+          ),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Icon(
+                Icons.copy_outlined,
+                size: 14,
+                color: bubbleStyle.copyIconColor ?? primaryColor,
+              ),
+              const SizedBox(width: 4),
+              Text(
+                'Copy',
+                style: TextStyle(
+                  fontSize: 12,
+                  letterSpacing: 0.1,
+                  color: bubbleStyle.copyIconColor ?? primaryColor,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }

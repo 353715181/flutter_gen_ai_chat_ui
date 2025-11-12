@@ -5,63 +5,63 @@ import '../ai_chat_config.dart';
 import 'chat_message.dart';
 import 'media.dart';
 
-/// Class for customizing chat bubble appearance
+/// 用于自定义聊天气泡外观的类
 class BubbleStyle {
-  /// Max width for user message bubbles
+  /// 用户消息气泡的最大宽度
   final double? userBubbleMaxWidth;
 
-  /// Max width for AI message bubbles
+  /// AI消息气泡的最大宽度
   final double? aiBubbleMaxWidth;
 
-  /// Min width for user message bubbles
+  /// 用户消息气泡的最小宽度
   final double? userBubbleMinWidth;
 
-  /// Min width for AI message bubbles
+  /// AI消息气泡的最小宽度
   final double? aiBubbleMinWidth;
 
-  /// Background color for user message bubbles
+  /// 用户消息气泡的背景颜色
   final Color? userBubbleColor;
 
-  /// Background color for AI message bubbles
+  /// AI消息气泡的背景颜色
   final Color? aiBubbleColor;
 
-  /// Color for user name in user bubbles
+  /// 用户气泡中用户名的颜色
   final Color? userNameColor;
 
-  /// Color for AI name in AI bubbles
+  /// AI 气泡中 AI 名称的颜色
   final Color? aiNameColor;
 
-  /// Color for the copy icon
+  /// 复制图标的颜色
   final Color? copyIconColor;
 
-  /// Top left radius for user message bubbles
+  /// 用户消息气泡的左上角半径
   final double? userBubbleTopLeftRadius;
 
-  /// Top right radius for user message bubbles
+  /// 用户消息气泡的右上角半径
   final double? userBubbleTopRightRadius;
 
-  /// Top left radius for AI message bubbles
+  /// AI 消息气泡的左上角半径
   final double? aiBubbleTopLeftRadius;
 
-  /// Top right radius for AI message bubbles
+  /// AI 消息气泡的右上角半径
   final double? aiBubbleTopRightRadius;
 
-  /// Bottom left radius for all message bubbles
+  /// 所有消息气泡的左下半径
   final double? bottomLeftRadius;
 
-  /// Bottom right radius for all message bubbles
+  /// 所有消息气泡的右下半径
   final double? bottomRightRadius;
 
-  /// Whether to show shadow for message bubbles
+  /// 是否显示消息气泡的阴影
   final bool enableShadow;
 
-  /// Shadow opacity for message bubbles
+  /// 消息气泡的阴影不透明度
   final double? shadowOpacity;
 
-  /// Shadow blur radius for message bubbles
+  /// 消息气泡的阴影模糊半径
   final double? shadowBlurRadius;
 
-  /// Shadow offset for message bubbles
+  /// 消息气泡的阴影偏移
   final Offset? shadowOffset;
 
   const BubbleStyle({
@@ -86,7 +86,7 @@ class BubbleStyle {
     this.shadowOffset,
   });
 
-  /// Default style for message bubbles
+  /// 消息气泡的默认样式
   static const BubbleStyle defaultStyle = BubbleStyle(
     userBubbleTopLeftRadius: 18,
     userBubbleTopRightRadius: 4,
@@ -100,7 +100,7 @@ class BubbleStyle {
     shadowOffset: Offset(0, 3),
   );
 
-  /// Creates a copy of this BubbleStyle with the given fields replaced
+  /// 创建此 BubbleStyle 的副本，并替换给定字段
   BubbleStyle copyWith({
     double? userBubbleMaxWidth,
     double? aiBubbleMaxWidth,
@@ -150,98 +150,112 @@ class BubbleStyle {
   }
 }
 
-/// Options for customizing message appearance and behavior
+/// 用于自定义消息外观和行为的选项
 class MessageOptions {
-  /// Style for the message text
+  /// 消息文本的样式
   final TextStyle? textStyle;
 
-  /// Padding around the message bubble
+  /// 消息气泡周围的填充
   final EdgeInsets? padding;
 
-  /// Margin around the message bubble
+  /// 消息气泡周围的边距
   final EdgeInsets? containerMargin;
 
-  /// Decoration for the message bubble
+  /// 消息气泡的装饰
   final BoxDecoration? decoration;
 
-  /// Decoration for the message bubble (containerDecoration is the new name)
+  /// 消息气泡的装饰（containerDecoration 是新名称）
   final BoxDecoration? containerDecoration;
 
-  /// Color for the message bubble background
-  final Color? containerColor; // Added for backward compatibility
+  /// 消息气泡背景的颜色
+  final Color? containerColor; // 添加是为了向后兼容
 
-  /// Whether to show message timestamp
+  /// 是否显示消息时间戳
   final bool showTime;
 
-  /// Style for the timestamp text
+  /// 时间戳文本的样式
   final TextStyle? timeTextStyle;
 
-  /// Function to format the timestamp
+  /// 格式化时间戳的函数
   final String Function(DateTime)? timeFormat;
 
-  /// Spacing between message bubble and timestamp
+  /// 消息气泡和时间戳之间的间距
   final double? timestampSpacing;
 
-  /// Maximum number of reactions to show
+  /// 显示的最大反应数
   final int maxReactions;
 
-  /// Size of reaction bubbles
+  /// 反应气泡大小
   final double reactionSize;
 
-  /// Whether to enable quick replies
+  /// 是否启用快速回复
   final bool enableQuickReply;
 
-  /// Style options for message bubbles
+  /// 消息气泡的样式选项
   ///
-  /// This property allows customizing the appearance of message bubbles,
-  /// including colors, border radius, and shadows.
+  /// 此属性允许自定义消息气泡的外观，
+  /// 包括颜色、边框半径和阴影。
   ///
-  /// The [bubbleStyle] colors (userBubbleColor and aiBubbleColor) will be used
-  /// even when decoration or containerDecoration is provided.
+  /// 将使用 [bubbleStyle] 颜色（userBubbleColor 和 aiBubbleColor）
+  /// 即使提供了装饰或containerDecoration。
   ///
-  /// To completely customize the bubble appearance (overriding bubbleStyle):
-  /// 1. Set bubbleStyle to null
-  /// 2. Provide a custom decoration or containerDecoration
+  /// 要完全自定义气泡外观（覆盖 bubbleStyle）：
+  /// 1. 设置 bubbleStyle 为 null
+  /// 2.提供自定义装饰或containerDecoration
   final BubbleStyle? bubbleStyle;
 
-  /// Whether to show user name
+  /// 是否显示用户名
   final bool? showUserName;
 
-  /// Style for user names
+  /// 用户名的样式
   final TextStyle? userNameStyle;
 
-  /// Style sheet for markdown content
+  /// Markdown 内容的样式表
   final MarkdownStyleSheet? markdownStyleSheet;
 
-  /// Callback when link is clicked
+  /// 点击链接时的回调
   final MarkdownTapLinkCallback? onTapLink;
 
-  /// Whether to show copy button for AI messages
+  /// AI消息是否显示复制按钮
   final bool? showCopyButton;
 
-  /// Callback when message is copied
+  /// 消息复制时的回调
   final void Function(String)? onCopy;
 
-  /// Color for user message text
+  /// 用户消息文本的颜色
   final Color? userTextColor;
 
-  /// Color for AI message text
+  /// AI 消息文本的颜色
   final Color? aiTextColor;
 
-  /// Callback when media is tapped in a message
+  /// 在消息中点击媒体时的回调
   final void Function(ChatMedia)? onMediaTap;
 
-  /// Whether to enable tapping on images in markdown content
+  /// 是否允许点击 Markdown 内容中的图像
   final bool enableImageTaps;
 
-  /// Callback when an image in markdown content is tapped
-  /// Provides the image URL, title, and alt text
+  /// 点击Markdown内容中的图片时的回调
+  /// 提供图像 URL、标题和替代文本
   final void Function(String url, String? title, String? alt)? onImageTap;
 
-  /// Custom builder for plain text content inside the bubble
+  /// 自定义复制按钮的构建函数
+  /// 
+  /// 参数:
+  /// - context: BuildContext
+  /// - message: 当前消息对象
+  /// - onCopyPressed: 复制按钮的点击回调
+  /// 
+  /// 返回自定义的复制按钮 Widget，如果返回 null 则使用默认实现
+  final Widget Function(
+    BuildContext context,
+    ChatMessage message,
+    VoidCallback onCopyPressed,
+  )? copyButtonBuilder;
+
+  /// 气泡内纯文本内容的自定义生成器
   ///
-  /// Allows overriding how non-markdown message text is rendered while keeping
-  /// the default bubble layout intact.
+  /// 允许覆盖非 Markdown 消息文本的呈现方式，同时保留
+  /// 默认的气泡布局完好无损。
   final Widget Function(
     BuildContext context,
     String text,
@@ -249,10 +263,10 @@ class MessageOptions {
     bool isUser,
   )? textBuilder;
 
-  /// Custom builder for markdown content inside the bubble
+  /// 气泡内降价内容的自定义生成器
   ///
-  /// Allows overriding how markdown message content is rendered while keeping
-  /// the default bubble layout intact.
+  /// 允许覆盖 Markdown 消息内容的呈现方式，同时保留
+  /// 默认的气泡布局完好无损。
   final Widget Function(
     BuildContext context,
     String text,
@@ -260,29 +274,29 @@ class MessageOptions {
     bool isUser,
   )? markdownBuilder;
 
-  /// Custom builder for message bubbles
+  /// 消息气泡的自定义生成器
   ///
-  /// This builder allows for complete replacement of the default message bubble.
-  /// The parameters provided are:
-  /// - [BuildContext] context: The build context
-  /// - [ChatMessage] message: The message being rendered
-  /// - [bool] isUser: Whether this message is from the current user
+  /// 该构建器允许完全替换默认消息气泡。
+  /// 提供的参数有：
+  /// -[BuildContext] context：构建上下文
+  /// -[ChatMessage] 消息：正在呈现的消息
+  /// -[bool] isUser: 该消息是否来自当前用户
   ///
-  /// Return a completely custom widget that replaces the entire bubble.
-  /// This provides true customization rather than just wrapping the default bubble.
+  /// 返回一个完全自定义的小部件来替换整个气泡。
+  /// 这提供了真正的定制，而不仅仅是包装默认的气泡。
   final Widget Function(BuildContext, ChatMessage, bool)? customBubbleBuilder;
 
-  /// Creates an instance of [MessageOptions].
+  /// 创建 [MessageOptions] 的实例。
   ///
-  /// Note about decorations:
-  /// - If [bubbleStyle] is provided, its color settings will take precedence
-  ///   over [decoration] and [containerDecoration] colors.
-  /// - Use [bubbleStyle] for customizing bubble colors, radii, and shadows.
-  /// - Use [decoration] or [containerDecoration] for more advanced decorations
-  ///   like gradients and images, but be aware that [bubbleStyle] colors will
-  ///   still be applied.
-  /// - To fully bypass [bubbleStyle], set it to null and only use
-  ///   [decoration] or [containerDecoration].
+  /// 装饰注意事项：
+  /// -如果提供了[bubbleStyle]，则其颜色设置将优先
+  ///   [decoration] 和 [containerDecoration] 颜色。
+  /// -使用 [bubbleStyle] 自定义气泡颜色、半径和阴影。
+  /// -使用[decoration]或[containerDecoration]进行更高级的装饰
+  ///   像渐变和图像，但要注意 [bubbleStyle] 颜色会
+  ///   仍适用。
+  /// -要完全绕过 [bubbleStyle]，请将其设置为 null 并仅使用
+  ///   [装饰]或[容器装饰]。
   const MessageOptions({
     this.textStyle,
     this.padding,
@@ -309,6 +323,7 @@ class MessageOptions {
     this.onMediaTap,
     this.enableImageTaps = false,
     this.onImageTap,
+    this.copyButtonBuilder,
     this.textBuilder,
     this.markdownBuilder,
     this.customBubbleBuilder,
@@ -340,6 +355,7 @@ class MessageOptions {
     void Function(ChatMedia)? onMediaTap,
     bool? enableImageTaps,
     void Function(String url, String? title, String? alt)? onImageTap,
+    Widget Function(BuildContext, ChatMessage, VoidCallback)? copyButtonBuilder,
     Widget Function(BuildContext, String, TextStyle, bool)? textBuilder,
     Widget Function(BuildContext, String, MarkdownStyleSheet, bool)?
         markdownBuilder,
@@ -371,12 +387,13 @@ class MessageOptions {
         onMediaTap: onMediaTap ?? this.onMediaTap,
         enableImageTaps: enableImageTaps ?? this.enableImageTaps,
         onImageTap: onImageTap ?? this.onImageTap,
+        copyButtonBuilder: copyButtonBuilder ?? this.copyButtonBuilder,
         textBuilder: textBuilder ?? this.textBuilder,
         markdownBuilder: markdownBuilder ?? this.markdownBuilder,
         customBubbleBuilder: customBubbleBuilder ?? this.customBubbleBuilder,
       );
 
-  /// Get effective decoration with fallback to containerColor
+  /// 通过回退到 containerColor 获得有效的装饰
   BoxDecoration? get effectiveDecoration {
     if (containerDecoration != null) {
       return containerDecoration;
@@ -394,33 +411,33 @@ class MessageOptions {
   }
 }
 
-/// Options for customizing the message list
+/// 用于自定义消息列表的选项
 class MessageListOptions {
-  /// Custom scroll controller for the message list
+  /// 消息列表的自定义滚动控制器
   final ScrollController? scrollController;
 
-  /// Custom scroll physics for the message list
+  /// 消息列表的自定义滚动物理
   final ScrollPhysics? scrollPhysics;
 
-  /// Builder for date separator between messages
+  /// 消息之间的日期分隔符生成器
   final Widget Function(DateTime)? dateSeparatorBuilder;
 
-  /// Widget to show while loading more messages
+  /// 加载更多消息时显示的小部件
   final Widget? loadingWidget;
 
-  /// Callback when loading earlier messages via button
+  /// 通过按钮加载较早消息时的回调
   final Future<void> Function()? onLoadEarlier;
 
-  /// Pagination configuration for message loading
+  /// 消息加载的分页配置
   final PaginationConfig paginationConfig;
 
-  /// Whether more messages are currently loading
+  /// 当前是否正在加载更多消息
   final bool isLoadingMore;
 
-  /// Whether there are more messages to load
+  /// 是否还有更多消息需要加载
   final bool hasMoreMessages;
 
-  /// Callback when automatic loading more messages is triggered by scroll
+  /// 滚动触发自动加载更多消息时的回调
   final Future<void> Function()? onLoadMore;
 
   const MessageListOptions({
@@ -459,18 +476,18 @@ class MessageListOptions {
       );
 }
 
-/// Options for customizing quick replies
+/// 自定义快速回复的选项
 class QuickReplyOptions {
-  /// List of quick reply options
+  /// 快速回复选项列表
   final List<String>? quickReplies;
 
-  /// Callback when a quick reply is tapped
+  /// 点击快速回复时的回调
   final void Function(String)? onQuickReplyTap;
 
-  /// Decoration for quick reply buttons
+  /// 快速回复按钮的装饰
   final BoxDecoration? decoration;
 
-  /// Text style for quick reply buttons
+  /// 快速回复按钮的文本样式
   final TextStyle? textStyle;
 
   const QuickReplyOptions({
@@ -494,34 +511,34 @@ class QuickReplyOptions {
       );
 }
 
-/// Options for customizing scroll to bottom button
+/// 用于自定义滚动到底部按钮的选项
 ///
-/// This button allows users to quickly scroll to the most recent messages.
-/// - In chronological mode (reverseOrder: false), it scrolls to the bottom of the list.
-/// - In reverse mode (reverseOrder: true), it scrolls to the top of the list.
+/// 此按钮允许用户快速滚动到最新消息。
+/// -在时间顺序模式下（reverseOrder: false），它滚动到列表的底部。
+/// -在反向模式下（reverseOrder：true），它滚动到列表顶部。
 class ScrollToBottomOptions {
-  /// Whether to disable the scroll to bottom button
+  /// 是否禁用滚动到底部按钮
   final bool disabled;
 
-  /// Whether to always show the scroll to bottom button
+  /// 是否始终显示滚动到底部按钮
   final bool alwaysVisible;
 
-  /// Callback when scroll to bottom button is pressed
+  /// 按下滚动到底部按钮时的回调
   final VoidCallback? onScrollToBottomPress;
 
-  /// Custom builder for scroll to bottom button
+  /// 用于滚动到底部按钮的自定义构建器
   final Widget Function(ScrollController)? scrollToBottomBuilder;
 
-  /// Distance from bottom of the screen (default is 72)
+  /// 距屏幕底部的距离（默认为 72）
   final double bottomOffset;
 
-  /// Distance from right of the screen (default is 16)
+  /// 距屏幕右侧的距离（默认为 16）
   final double rightOffset;
 
-  /// Whether to show text next to the icon (default is true)
+  /// 是否在图标旁边显示文本（默认为true）
   final bool showText;
 
-  /// Custom text to display next to the icon (default is "Scroll to bottom")
+  /// 显示在图标旁边的自定义文本（默认为“滚动到底部”）
   final String buttonText;
 
   const ScrollToBottomOptions({
