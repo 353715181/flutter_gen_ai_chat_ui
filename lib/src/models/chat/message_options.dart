@@ -529,6 +529,12 @@ class ScrollToBottomOptions {
   /// 用于滚动到底部按钮的自定义构建器
   final Widget Function(ScrollController)? scrollToBottomBuilder;
 
+  /// 自定义按钮外观构建器
+  /// 
+  /// 用于自定义按钮本身的外观,接收点击回调和可见性状态
+  /// 如果提供此参数,将使用自定义按钮外观,但保持原有的位置和动画逻辑
+  final Widget Function(VoidCallback onTap, bool visible)? buttonBuilder;
+
   /// 距屏幕底部的距离（默认为 72）
   final double bottomOffset;
 
@@ -538,7 +544,7 @@ class ScrollToBottomOptions {
   /// 是否在图标旁边显示文本（默认为true）
   final bool showText;
 
-  /// 显示在图标旁边的自定义文本（默认为“滚动到底部”）
+  /// 显示在图标旁边的自定义文本（默认为"滚动到底部"）
   final String buttonText;
 
   const ScrollToBottomOptions({
@@ -546,6 +552,7 @@ class ScrollToBottomOptions {
     this.alwaysVisible = false,
     this.onScrollToBottomPress,
     this.scrollToBottomBuilder,
+    this.buttonBuilder,
     this.bottomOffset = 72,
     this.rightOffset = 16,
     this.showText = false,
@@ -557,6 +564,7 @@ class ScrollToBottomOptions {
     bool? alwaysVisible,
     VoidCallback? onScrollToBottomPress,
     Widget Function(ScrollController)? scrollToBottomBuilder,
+    Widget Function(VoidCallback onTap, bool visible)? buttonBuilder,
     double? bottomOffset,
     double? rightOffset,
     bool? showText,
@@ -569,6 +577,7 @@ class ScrollToBottomOptions {
             onScrollToBottomPress ?? this.onScrollToBottomPress,
         scrollToBottomBuilder:
             scrollToBottomBuilder ?? this.scrollToBottomBuilder,
+        buttonBuilder: buttonBuilder ?? this.buttonBuilder,
         bottomOffset: bottomOffset ?? this.bottomOffset,
         rightOffset: rightOffset ?? this.rightOffset,
         showText: showText ?? this.showText,

@@ -1074,86 +1074,98 @@ class _CustomChatWidgetState extends State<CustomChatWidget> {
       return const SizedBox.shrink();
     }
 
-    return widget.scrollToBottomOptions.scrollToBottomBuilder
-            ?.call(_scrollController) ??
-        Positioned(
-          bottom: widget.scrollToBottomOptions.bottomOffset,
-          right: widget.scrollToBottomOptions.rightOffset,
-          child: AnimatedOpacity(
-            opacity: _showScrollToBottom ? 1.0 : 0.0,
-            duration: const Duration(milliseconds: 200),
-            child: Container(
-              decoration: BoxDecoration(
-                color: Theme.of(context).brightness == Brightness.dark
-                    ? Colors.grey[800]
-                    : Colors.white,
-                borderRadius: BorderRadius.circular(24),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black.withOpacityCompat(0.08),
-                    blurRadius: 8,
-                    spreadRadius: 1,
-                    offset: const Offset(0, 2),
-                  ),
-                ],
+    // 如果提供了完全自定义的构建器,使用它
+    if (widget.scrollToBottomOptions.scrollToBottomBuilder != null) {
+      return widget.scrollToBottomOptions.scrollToBottomBuilder!
+          .call(_scrollController);
+    }
+
+    // 定义滚动到底部的回调
+    void scrollToBottom() {
+      if (_scrollController.hasClients) {
+        final paginationConfig = widget.messageListOptions.paginationConfig;
+        if (paginationConfig.reverseOrder) {
+          // In reverse mode, scroll to top (0)
+          _scrollController.animateTo(
+            0,
+            duration: const Duration(milliseconds: 300),
+            curve: Curves.easeOut,
+          );
+        } else {
+          // In chronological mode, scroll to bottom (maxScrollExtent)
+          _scrollController.animateTo(
+            _scrollController.position.maxScrollExtent,
+            duration: const Duration(milliseconds: 300),
+            curve: Curves.easeOut,
+          );
+        }
+      }
+      widget.scrollToBottomOptions.onScrollToBottomPress?.call();
+    }
+
+    // 如果提供了自定义按钮构建器,使用它但保持原有的位置和动画逻辑
+    final buttonWidget = widget.scrollToBottomOptions.buttonBuilder
+            ?.call(scrollToBottom, _showScrollToBottom) ??
+        // 默认按钮外观
+        Container(
+          decoration: BoxDecoration(
+            color: Theme.of(context).brightness == Brightness.dark
+                ? Colors.grey[800]
+                : Colors.white,
+            borderRadius: BorderRadius.circular(24),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withOpacityCompat(0.08),
+                blurRadius: 8,
+                spreadRadius: 1,
+                offset: const Offset(0, 2),
               ),
-              child: Material(
-                color: Colors.transparent,
-                borderRadius: BorderRadius.circular(24),
-                child: InkWell(
-                  borderRadius: BorderRadius.circular(24),
-                  onTap: () {
-                    if (_scrollController.hasClients) {
-                      final paginationConfig =
-                          widget.messageListOptions.paginationConfig;
-                      if (paginationConfig.reverseOrder) {
-                        // In reverse mode, scroll to top (0)
-                        _scrollController.animateTo(
-                          0,
-                          duration: const Duration(milliseconds: 300),
-                          curve: Curves.easeOut,
-                        );
-                      } else {
-                        // In chronological mode, scroll to bottom (maxScrollExtent)
-                        _scrollController.animateTo(
-                          _scrollController.position.maxScrollExtent,
-                          duration: const Duration(milliseconds: 300),
-                          curve: Curves.easeOut,
-                        );
-                      }
-                    }
-                    widget.scrollToBottomOptions.onScrollToBottomPress?.call();
-                  },
-                  child: Padding(
-                    padding:
-                        const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Icon(
-                          Icons.keyboard_arrow_down,
-                          size: 20,
+            ],
+          ),
+          child: Material(
+            color: Colors.transparent,
+            borderRadius: BorderRadius.circular(24),
+            child: InkWell(
+              borderRadius: BorderRadius.circular(24),
+              onTap: scrollToBottom,
+              child: Padding(
+                padding:
+                    const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Icon(
+                      Icons.keyboard_arrow_down,
+                      size: 20,
+                      color: Theme.of(context).primaryColor,
+                    ),
+                    if (widget.scrollToBottomOptions.showText) ...[
+                      const SizedBox(width: 4),
+                      Text(
+                        widget.scrollToBottomOptions.buttonText,
+                        style: TextStyle(
+                          fontSize: 12,
+                          fontWeight: FontWeight.w500,
                           color: Theme.of(context).primaryColor,
                         ),
-                        if (widget.scrollToBottomOptions.showText) ...[
-                          const SizedBox(width: 4),
-                          Text(
-                            widget.scrollToBottomOptions.buttonText,
-                            style: TextStyle(
-                              fontSize: 12,
-                              fontWeight: FontWeight.w500,
-                              color: Theme.of(context).primaryColor,
-                            ),
-                          ),
-                        ],
-                      ],
-                    ),
-                  ),
+                      ),
+                    ],
+                  ],
                 ),
               ),
             ),
           ),
         );
+
+    return Positioned(
+      bottom: widget.scrollToBottomOptions.bottomOffset,
+      right: widget.scrollToBottomOptions.rightOffset,
+      child: AnimatedOpacity(
+        opacity: _showScrollToBottom ? 1.0 : 0.0,
+        duration: const Duration(milliseconds: 200),
+        child: buttonWidget,
+      ),
+    );
   }
 
   /// Build the welcome message widget
