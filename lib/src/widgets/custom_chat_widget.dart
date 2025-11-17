@@ -127,6 +127,15 @@ class _CustomChatWidgetState extends State<CustomChatWidget> {
       // Reconnect scroll controller
       _connectScrollControllerToMessagesController();
     }
+    
+    // Reset scroll to bottom button visibility when messages change
+    // Especially important when switching to an empty conversation
+    if (oldWidget.messages.length != widget.messages.length) {
+      if (widget.messages.isEmpty && _showScrollToBottom) {
+        // Hide button immediately when conversation becomes empty
+        setState(() => _showScrollToBottom = false);
+      }
+    }
   }
 
   void _handleScroll() {
@@ -1098,6 +1107,13 @@ class _CustomChatWidgetState extends State<CustomChatWidget> {
             duration: const Duration(milliseconds: 300),
             curve: Curves.easeOut,
           );
+        }
+        
+        // Hide button immediately after scrolling
+        // This is especially important for empty conversations where
+        // scroll events won't be triggered
+        if (_showScrollToBottom) {
+          setState(() => _showScrollToBottom = false);
         }
       }
       widget.scrollToBottomOptions.onScrollToBottomPress?.call();
